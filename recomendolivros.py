@@ -5,11 +5,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from PIL import Image
 
-st.beta_set_page_config(page_title='Recomendador de Livros', page_icon='📖')
+st.set_page_config(page_title='Recomendador de Livros', page_icon='📖')
 
 
-ds = pd.read_csv('C:/Users/Erick/Desktop/app/mda.csv')
-tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0)
+ds = pd.read_csv('mda.csv')
+tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0.0)
 tf.stopwords = 'portuguese'
 tfidf_matrix = tf.fit_transform(ds['description'])
 cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
@@ -27,7 +27,7 @@ def check_hashes(password, hashed_text):
     return False
 
 
-dat = 'C:/Users/Erick/Desktop/app/mda.csv'
+dat = 'mda.csv'
 dados = pd.read_csv(dat)
 
 
@@ -41,7 +41,7 @@ def main():
 
     if choice == "Página Inicial":
         st.subheader("Página Inicial")
-        image = Image.open('C:/Users/Erick/Desktop/app/img.jpg')
+        image = Image.open('img.jpg')
         st.image(image, caption='Créditos: pixabay.com/pt/users/geralt-9301/',
                  use_column_width=True)
         st.text(
