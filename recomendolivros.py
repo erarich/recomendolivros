@@ -5,10 +5,10 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from PIL import Image
-# dede
+
 st.beta_set_page_config(page_title='Recomendador de Livros', page_icon='📖')
 
-# SYSTEM
+
 ds = pd.read_csv('C:/Users/Erick/Desktop/app/mda.csv')
 tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0)
 tf.stopwords = 'portuguese'
@@ -16,12 +16,6 @@ tfidf_matrix = tf.fit_transform(ds['description'])
 cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 results = {}
 language = "portuguese"
-
-# códido do sistema termina aaqui
-
-
-# Security
-# passlib,hashlib,bcrypt,scrypt
 
 
 def make_hashes(password):
@@ -32,35 +26,6 @@ def check_hashes(password, hashed_text):
     if make_hashes(password) == hashed_text:
         return hashed_text
     return False
-
-
-# DB Management
-conn = sqlite3.connect('data.db')
-c = conn.cursor()
-# DB  Functions
-
-
-def create_usertable():
-    c.execute('CREATE TABLE IF NOT EXISTS userstable(username TEXT,password TEXT)')
-
-
-def add_userdata(username, password):
-    c.execute('INSERT INTO userstable(username,password) VALUES (?,?)',
-              (username, password))
-    conn.commit()
-
-
-def login_user(username, password):
-    c.execute('SELECT * FROM userstable WHERE username =? AND password = ?',
-              (username, password))
-    data = c.fetchall()
-    return data
-
-
-def view_all_users():
-    c.execute('SELECT * FROM userstable')
-    data = c.fetchall()
-    return data
 
 
 dat = 'C:/Users/Erick/Desktop/app/mda.csv'
@@ -153,17 +118,6 @@ def main():
                     st.dataframe(clean_db)
             else:
                 st.warning("Usuário/Senha incorreto")
-
-    elif choice == "Inscrever-se":
-        st.subheader("Criar nova conta")
-        new_user = st.text_input("Usuário")
-        new_password = st.text_input("Senha", type='password')
-
-        if st.button("Inscrever-se"):
-            create_usertable()
-            add_userdata(new_user, make_hashes(new_password))
-            st.success("Você criou com sucesso uma conta válida")
-            st.info("Vá para o Menu de Login para fazer o login")
 
     elif choice == 'Sobre':
         st.subheader('Informações sobre o projeto!')
