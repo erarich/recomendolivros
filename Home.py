@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+from src.functions import load_data
+
 
 st.set_page_config(page_title='Recomendador de Livros', page_icon='📖')
 
