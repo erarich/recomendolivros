@@ -1,5 +1,6 @@
 import streamlit as st
 
+st.title('About')
 st.markdown('This project was developed for a school project in September 2020 to emphasize'
             ' the impact of Recommender Systems on users\' daily activities.')
 
