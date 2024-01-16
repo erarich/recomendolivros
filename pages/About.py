@@ -1,15 +1,14 @@
 import streamlit as st
 
-st.text(
-    "Esta é uma plataforma de recomendação de livros que está em fase inicial. Para poder usá-la, ")
-st.text("utilize a barra lateral,vá em Inscrever-se e depois em Login para acessar a plataforma com a nova conta.")
-st.subheader("Como usar o sistema:")
-st.text(
-    "Em Lista de Livros, é possível ter acesso a todos os livros disponíveis no banco de dados.")
-st.text(
-    "Pesquise o título do livro no qual deseja usar na plataforma e encontre sua id.")
-st.text("Em Pedir Recomendação, digite a id do livro que escolheu, o sistema recomendará um livro semelhante!")
+st.markdown('This project was developed for a school project in September 2020 to emphasize'
+            ' the impact of Recommender Systems on users\' daily activities.')
 
-st.subheader('Informações sobre o projeto!')
-st.text('Esse projeto está sendo realizado para a MOSTRA SESI 2020. '
-        'Desenvolvido em setembro de 2020.')
+st.markdown('It was created during my third year of high school for the "Mostra SESI",'
+            ' a pedagogic event aimed at strengthening basic education with quality.'
+            ' The theme for that year (2020) was Artificial Intelligence, and the context'
+            ' was the Covid-19 pandemic. Consequently, my team chose a theme that combines'
+            ' AI with that context, characterized by the prevalence of digital content and'
+            ' social media. Hence, the sub-theme Recommenders Systems was chosen.')
+
+st.markdown('The original dataset consists of a list of 138 books, all carefully selected by the team,'
+            ' and each book includes a description column created by us.')
