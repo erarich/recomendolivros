@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
+from src.functions import load_data
 
 
 def main():
     st.title('Dataset')
-    df = pd.read_csv('mda.csv')
+    df = load_data('mda.csv')
     resumed_df = df[['id', 'Título']]
 
     selectbox_options = ['Resumed', 'Complete']
