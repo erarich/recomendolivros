@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
-from PIL import Image
 
 st.set_page_config(page_title='Recomendador de Livros', page_icon='📖')
-
 
 ds = pd.read_csv('mda.csv')
 tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0.0)
@@ -27,19 +25,7 @@ def main():
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Página Inicial":
-        st.subheader("Página Inicial")
-        image = Image.open('img.jpg')
-        st.image(image, caption='Créditos: pixabay.com/pt/users/geralt-9301/',
-                 use_column_width=True)
-        st.text(
-            "Esta é uma plataforma de recomendação de livros que está em fase inicial. Para poder usá-la, ")
-        st.text("utilize a barra lateral,vá em Inscrever-se e depois em Login para acessar a plataforma com a nova conta.")
-        st.subheader("Como usar o sistema:")
-        st.text(
-            "Em Lista de Livros, é possível ter acesso a todos os livros disponíveis no banco de dados.")
-        st.text(
-            "Pesquise o título do livro no qual deseja usar na plataforma e encontre sua id.")
-        st.text("Em Pedir Recomendação, digite a id do livro que escolheu, o sistema recomendará um livro semelhante!")
+        pass
 
     elif choice == "Login":
         task = st.selectbox(
