@@ -22,18 +22,9 @@ def main():
     st.title("Recomendador de Livros")
 
     task = st.selectbox(
-        "Ferramentas", ["Lista de Livros", "Recomendação", "Perfis"])
-    if task == "Lista de Livros":
-        st.subheader(
-            "Use esta lista de livros para saber a ID dos livros")
+        "Ferramentas", ["Lista de Livros", "Recomendação"])
 
-        resultado = st.selectbox(
-            'Digite o nome do livro:', dados[['Título']])
-        st.write(resultado)
-        colunas = dados[['id', 'Título']]
-        st.table(colunas)
-
-    elif task == "Recomendação":
+    if task == "Recomendação":
         for idx, row in ds.iterrows():
             similar_indices = cosine_similarities[idx].argsort()[
                 :-100:-1]
