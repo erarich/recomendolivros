@@ -1,4 +1,3 @@
-import hashlib
 import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -15,16 +14,6 @@ tfidf_matrix = tf.fit_transform(ds['description'])
 cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 results = {}
 language = "portuguese"
-
-
-def make_hashes(password):
-    return hashlib.sha256(str.encode(password)).hexdigest()
-
-
-def check_hashes(password, hashed_text):
-    if make_hashes(password) == hashed_text:
-        return hashed_text
-    return False
 
 
 dat = 'mda.csv'
@@ -61,10 +50,6 @@ def main():
         password = st.sidebar.text_input("Senha", type='password')
         if st.sidebar.checkbox("Login"):
             # if password == '12345':
-            create_usertable()
-            hashed_pswd = make_hashes(password)
-
-            result = login_user(username, check_hashes(password, hashed_pswd))
             if result:
 
                 st.success("Logado como {}".format(username))
@@ -108,15 +93,6 @@ def main():
                             st.text("Recomendo: " + item(rec[1]))
 
                     recommend(num=1)
-
-                elif task == "Perfis":
-                    st.subheader("Perfis")
-                    user_result = view_all_users()
-                    clean_db = pd.DataFrame(user_result, columns=[
-                                            "Username", "Password"])
-                    st.dataframe(clean_db)
-            else:
-                st.warning("Usuário/Senha incorreto")
 
     elif choice == 'Sobre':
         st.subheader('Informações sobre o projeto!')
