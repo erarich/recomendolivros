@@ -29,5 +29,5 @@ Activate enviroment:
 
 Install dependencies:
 ```console
-pip install -r requirementst.txt
+pip install -r requirements.txt
 ```
