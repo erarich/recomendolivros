@@ -13,8 +13,14 @@ Deploy foi realizado na plataforma heroku, onde continua hospedado no endereço:
 
 ## Run locally:
 
+Clone the proeject:
 ```console
 git clone https://github.com/erarich/recomendolivros.git
+```
+
+Enter the project's directory:
+```console
+cd recomendolivros
 ```
 
 Create a virtual enviroment:
@@ -22,7 +28,7 @@ Create a virtual enviroment:
 python -m venv venv/
 ```
 
-Activate enviroment:
+Activate the virtual enviroment:
 ```console
 .\venv\Scripts\Activate.ps1
 ```
@@ -30,4 +36,9 @@ Activate enviroment:
 Install dependencies:
 ```console
 pip install -r requirements.txt
+```
+
+Start the server:
+```console
+streamlit run Home.py
 ```
