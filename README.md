@@ -14,7 +14,7 @@ Deploy foi realizado na plataforma heroku, onde continua hospedado no endereço:
 ## Run locally:
 
 ```console
-git clone
+git clone https://github.com/erarich/recomendolivros.git
 ```
 
 Create a virtual enviroment:
