@@ -21,11 +21,9 @@ dados = pd.read_csv(dat)
 
 
 def main():
-    """Simple Login App"""
-
     st.title("Recomendador de Livros")
 
-    menu = ["Página Inicial", "Login", "Inscrever-se", 'Sobre']
+    menu = ["Página Inicial", "Login", 'Sobre']
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Página Inicial":
@@ -44,55 +42,45 @@ def main():
         st.text("Em Pedir Recomendação, digite a id do livro que escolheu, o sistema recomendará um livro semelhante!")
 
     elif choice == "Login":
-        st.subheader("")
+        task = st.selectbox(
+            "Ferramentas", ["Lista de Livros", "Recomendação", "Perfis"])
+        if task == "Lista de Livros":
+            st.subheader(
+                "Use esta lista de livros para saber a ID dos livros")
 
-        username = st.sidebar.text_input("Usuário")
-        password = st.sidebar.text_input("Senha", type='password')
-        if st.sidebar.checkbox("Login"):
-            # if password == '12345':
-            if result:
+            resultado = st.selectbox(
+                'Digite o nome do livro:', dados[['Título']])
+            st.write(resultado)
+            colunas = dados[['id', 'Título']]
+            st.table(colunas)
 
-                st.success("Logado como {}".format(username))
+        elif task == "Recomendação":
+            for idx, row in ds.iterrows():
+                similar_indices = cosine_similarities[idx].argsort()[
+                    :-100:-1]
+                similar_items = [
+                    (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
 
-                task = st.selectbox(
-                    "Ferramentas", ["Lista de Livros", "Recomendação", "Perfis"])
-                if task == "Lista de Livros":
-                    st.subheader(
-                        "Use esta lista de livros para saber a ID dos livros")
+                results[row['id']] = similar_items[1:]
 
-                    resultado = st.selectbox(
-                        'Digite o nome do livro:', dados[['Título']])
-                    st.write(resultado)
-                    colunas = dados[['id', 'Título']]
-                    st.table(colunas)
+            def item(id):
+                return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
 
-                elif task == "Recomendação":
-                    for idx, row in ds.iterrows():
-                        similar_indices = cosine_similarities[idx].argsort()[
-                            :-100:-1]
-                        similar_items = [
-                            (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
+            item_id = int(st.number_input(
+                'Enter the text for test:', min_value=0, step=1, value=1))
+            st.write(item_id)
 
-                        results[row['id']] = similar_items[1:]
+            def recommend(num):
+                st.text("Recomendando " + str(num) +
+                        " livro similar a " + item(item_id) + "...")
+                st.text("-------")
+                st.text("-------")
+                st.text("-------")
+                recs = results[item_id][:num]
+                for rec in recs:
+                    st.text("Recomendo: " + item(rec[1]))
 
-                    def item(id):
-                        return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
-
-                    item_id = int(st.number_input(
-                        'Enter the text for test:', min_value=0, step=1, value=1))
-                    st.write(item_id)
-
-                    def recommend(num):
-                        st.text("Recomendando " + str(num) +
-                                " livro similar a " + item(item_id) + "...")
-                        st.text("-------")
-                        st.text("-------")
-                        st.text("-------")
-                        recs = results[item_id][:num]
-                        for rec in recs:
-                            st.text("Recomendo: " + item(rec[1]))
-
-                    recommend(num=1)
+            recommend(num=1)
 
     elif choice == 'Sobre':
         st.subheader('Informações sobre o projeto!')
