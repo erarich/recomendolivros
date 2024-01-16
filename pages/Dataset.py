@@ -4,6 +4,7 @@ from src.functions import load_data
 
 
 def main():
+    st.set_page_config(page_title='Dataset', page_icon='📖')
     st.title('Dataset')
     df = load_data('mda.csv')
     resumed_df = df[['id', 'Título']]
