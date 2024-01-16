@@ -9,3 +9,7 @@ st.text(
 st.text(
     "Pesquise o título do livro no qual deseja usar na plataforma e encontre sua id.")
 st.text("Em Pedir Recomendação, digite a id do livro que escolheu, o sistema recomendará um livro semelhante!")
+
+st.subheader('Informações sobre o projeto!')
+st.text('Esse projeto está sendo realizado para a MOSTRA SESI 2020. '
+        'Desenvolvido em setembro de 2020.')

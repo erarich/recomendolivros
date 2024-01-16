@@ -21,57 +21,45 @@ dados = pd.read_csv(dat)
 def main():
     st.title("Recomendador de Livros")
 
-    menu = ["Página Inicial", "Login", 'Sobre']
-    choice = st.sidebar.selectbox("Menu", menu)
+    task = st.selectbox(
+        "Ferramentas", ["Lista de Livros", "Recomendação", "Perfis"])
+    if task == "Lista de Livros":
+        st.subheader(
+            "Use esta lista de livros para saber a ID dos livros")
 
-    if choice == "Página Inicial":
-        pass
+        resultado = st.selectbox(
+            'Digite o nome do livro:', dados[['Título']])
+        st.write(resultado)
+        colunas = dados[['id', 'Título']]
+        st.table(colunas)
 
-    elif choice == "Login":
-        task = st.selectbox(
-            "Ferramentas", ["Lista de Livros", "Recomendação", "Perfis"])
-        if task == "Lista de Livros":
-            st.subheader(
-                "Use esta lista de livros para saber a ID dos livros")
+    elif task == "Recomendação":
+        for idx, row in ds.iterrows():
+            similar_indices = cosine_similarities[idx].argsort()[
+                :-100:-1]
+            similar_items = [
+                (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
 
-            resultado = st.selectbox(
-                'Digite o nome do livro:', dados[['Título']])
-            st.write(resultado)
-            colunas = dados[['id', 'Título']]
-            st.table(colunas)
+            results[row['id']] = similar_items[1:]
 
-        elif task == "Recomendação":
-            for idx, row in ds.iterrows():
-                similar_indices = cosine_similarities[idx].argsort()[
-                    :-100:-1]
-                similar_items = [
-                    (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
+        def item(id):
+            return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
 
-                results[row['id']] = similar_items[1:]
+        item_id = int(st.number_input(
+            'Enter the text for test:', min_value=0, step=1, value=1))
+        st.write(item_id)
 
-            def item(id):
-                return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
+        def recommend(num):
+            st.text("Recomendando " + str(num) +
+                    " livro similar a " + item(item_id) + "...")
+            st.text("-------")
+            st.text("-------")
+            st.text("-------")
+            recs = results[item_id][:num]
+            for rec in recs:
+                st.text("Recomendo: " + item(rec[1]))
 
-            item_id = int(st.number_input(
-                'Enter the text for test:', min_value=0, step=1, value=1))
-            st.write(item_id)
-
-            def recommend(num):
-                st.text("Recomendando " + str(num) +
-                        " livro similar a " + item(item_id) + "...")
-                st.text("-------")
-                st.text("-------")
-                st.text("-------")
-                recs = results[item_id][:num]
-                for rec in recs:
-                    st.text("Recomendo: " + item(rec[1]))
-
-            recommend(num=1)
-
-    elif choice == 'Sobre':
-        st.subheader('Informações sobre o projeto!')
-        st.text('Esse projeto está sendo realizado para a MOSTRA SESI 2020. '
-                'Desenvolvido em setembro de 2020.')
+        recommend(num=1)
 
 
 if __name__ == '__main__':
