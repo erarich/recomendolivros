@@ -10,3 +10,24 @@ Bibliotecas utilizadas:
 
 Projeto bastante básico, baseado em alguns tutoriais, desenvolvido com pouca experiência nas tecnologias.
 Deploy foi realizado na plataforma heroku, onde continua hospedado no endereço: https://recomendolivros.herokuapp.com/
+
+## Run locally:
+
+```console
+git clone
+```
+
+Create a virtual enviroment:
+```console
+python -m venv venv/
+```
+
+Activate enviroment:
+```console
+.\venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+```console
+pip install -r requirementst.txt
+```
