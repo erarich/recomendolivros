@@ -21,36 +21,32 @@ dados = pd.read_csv(dat)
 def main():
     st.title("Recomendador de Livros")
 
-    task = st.selectbox(
-        "Ferramentas", ["Lista de Livros", "Recomendação"])
+    for idx, row in ds.iterrows():
+        similar_indices = cosine_similarities[idx].argsort()[
+            :-100:-1]
+        similar_items = [
+            (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
 
-    if task == "Recomendação":
-        for idx, row in ds.iterrows():
-            similar_indices = cosine_similarities[idx].argsort()[
-                :-100:-1]
-            similar_items = [
-                (cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
+        results[row['id']] = similar_items[1:]
 
-            results[row['id']] = similar_items[1:]
+    def item(id):
+        return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
 
-        def item(id):
-            return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
+    item_id = int(st.number_input(
+        'Enter the text for test:', min_value=0, step=1, value=1))
+    st.write(item_id)
 
-        item_id = int(st.number_input(
-            'Enter the text for test:', min_value=0, step=1, value=1))
-        st.write(item_id)
+    def recommend(num):
+        st.text("Recomendando " + str(num) +
+                " livro similar a " + item(item_id) + "...")
+        st.text("-------")
+        st.text("-------")
+        st.text("-------")
+        recs = results[item_id][:num]
+        for rec in recs:
+            st.text("Recomendo: " + item(rec[1]))
 
-        def recommend(num):
-            st.text("Recomendando " + str(num) +
-                    " livro similar a " + item(item_id) + "...")
-            st.text("-------")
-            st.text("-------")
-            st.text("-------")
-            recs = results[item_id][:num]
-            for rec in recs:
-                st.text("Recomendo: " + item(rec[1]))
-
-        recommend(num=1)
+    recommend(num=1)
 
 
 if __name__ == '__main__':
